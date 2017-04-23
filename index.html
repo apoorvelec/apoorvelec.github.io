@@ -9,6 +9,16 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+
+      <script> 
+         $(function(){ 
+            $("#language_description").load("Language_Description.html");
+            $("#lexer_construction").load("Lexer_Construction.html");
+            $("#parser_construction").load("Parser_Construction.html");
+            $("#final_stage").load("Final_Stage.html");
+         });
+      </script>
+
       </head>
    <body>
       <div  class="col-xs-12">
@@ -17,19 +27,19 @@
             <!-- required for floating -->
             <!-- Nav tabs -->
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#home" data-toggle="tab">Language Definition</a></li>
-                <li><a href="#profile" data-toggle="tab">Construction of Lexer</a></li>
-                <li><a href="#messages" data-toggle="tab">Construction of Parser</a></li>
-                <li><a href="#settings" data-toggle="tab">Final Stage</a></li>
+                <li class="active"><a href="#language_description" data-toggle="tab">Language Definition</a></li>
+                <li><a href="#lexer_construction" data-toggle="tab">Construction of Lexer</a></li>
+                <li><a href="#parser_construction" data-toggle="tab">Construction of Parser</a></li>
+                <li><a href="#final_stage" data-toggle="tab">Final Stage</a></li>
             </ul>
         </div>
         <div class="col-xs-12">
             <!-- Tab panes -->
-            <div class="tab-content">
-                <div class="tab-pane active" id="home">Home Tab.</div>
-                <div class="tab-pane" id="profile">Profile Tab.</div>
-                <div class="tab-pane" id="messages">Messages Tab.</div>
-                <div class="tab-pane" id="settings">Settings Tab.</div>
+            <div class="tab-content" id="Tabs">
+                <div class="tab-pane active" id="language_description"></div>
+                <div class="tab-pane" id="lexer_construction"></div>
+                <div class="tab-pane" id="parser_construction"></div>
+                <div class="tab-pane" id="final_stage"></div>
             </div>
         </div>
     </div>  
