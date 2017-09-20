@@ -4,10 +4,296 @@
 
 		<meta charset="utf-8">
   		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link href='https://fonts.googleapis.com/css?family=Viga' rel='stylesheet'>
+  		<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'>
   		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  		<script type="text/javascript">
+  			$(document).ready(function() {
+    			$(window).scroll(function() {
+      				// do whatever you need here.
+      				var scrollPos = $(document).scrollTop();
+      				var distFromTopForStickinessToStart = 100;
+      				var introDivHeight = document.getElementById('intro_display').offsetHeight;
+      				if(scrollPos>introDivHeight - distFromTopForStickinessToStart){
+      					document.getElementById('menu_btn_list').style.position = "fixed";
+      					document.getElementById('menu_btn_list').style.top = distFromTopForStickinessToStart;
+      				}else{
+      					document.getElementById('menu_btn_list').style.position = "absolute";
+      					document.getElementById('menu_btn_list').style.top = introDivHeight;
+      				}
+    			});
+			});
+  			
+  		</script>
 	</header>
 
+	<style>
+		.IntroDisplay{
+			width: 103%;
+			height: 101%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-image: url('IMG_3317.JPG');
+			background-repeat: no-repeat;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+			background-attachment: fixed;
+			position: relative;
+		}
 
+		.circle {
+      		width: 200px;
+      		height: 200px;
+      		-webkit-border-radius: 100px;
+      		-moz-border-radius: 100px;
+      		border-radius: 100px;
+    	}
+
+		.menu-btn{
+			width: 100px;
+			height: 80px;
+			color: #333;
+		}
+
+		.btn-group-vertical{
+			width: 100px;
+		}
+
+		.menu{
+			position: sticky;
+			top:10px;
+			z-index: 10;
+		}
+
+		.fa-chevron-down{
+			margin-top: 0px;
+		}
+
+		/*For Mozilla FireFox*/
+		@-moz-keyframes bounce {
+  			0%, 18%, 50%, 80%, 100% {
+    		-moz-transform: translateY(0);
+    		transform: translateY(0);
+  			}
+  			40% {
+    			-moz-transform: translateY(18px);
+    			transform: translateY(18px);
+  			}
+			60% {
+			    -moz-transform: translateY(15px);
+			    transform: translateY(15px);
+			}
+		}
+
+		@-webkit-keyframes bounce {
+			0%, 18%, 50%, 80%, 100% {
+			    -webkit-transform: translateY(0);
+			    transform: translateY(0);
+			}
+		  	40% {
+		    	-webkit-transform: translateY(18px);
+		    	transform: translateY(18px);
+		  	}
+		  	60% {
+		    	-webkit-transform: translateY(15px);
+		  	  	transform: translateY(15px);
+		  	}
+		}
+
+		/*For Google Chrome*/
+		@keyframes bounce {
+			0%, 18%, 50%, 70%, 100% {
+			    -moz-transform: translateY(0);
+			    -ms-transform: translateY(0);
+			    -webkit-transform: translateY(0);
+			    transform: translateY(0);
+			}
+  			40% {
+    			-moz-transform: translateY(18px);
+    			-ms-transform: translateY(18px);
+    			-webkit-transform: translateY(18px);
+    			transform: translateY(18px);
+  			}
+  			60% {
+    			-moz-transform: translateY(15px);
+    			-ms-transform: translateY(15px);
+    			-webkit-transform: translateY(15px);
+    			transform: translateY(15px);
+  			}
+  			80% {
+    			-moz-transform: translateY(10px);
+    			-ms-transform: translateY(10px);
+    			-webkit-transform: translateY(10px);
+    			transform: translateY(10px);
+  			}
+		}
+
+		.bounce {
+			-moz-animation: bounce 2s infinite;
+		  	-webkit-animation: bounce 2s infinite;
+		  	animation: bounce 2s infinite;
+		}
+	</style>
+	<body>
+		<div class="container-fluid">
+
+			<div id="intro_display" class="IntroDisplay row">
+				<div class="flex-column text-center" style="font-family:Viga">
+					<h1 style="font-size:70px;color:#0f0">Apoorv Patwardhan</h1>
+					<hr style="height:2px;border:none;color:#fff;background-color:#fff;"/>
+					<h2 style="color:#fff">Personal Portfolio</h2>
+				</div>
+				<button class="menu-btn btn" style="position:absolute;right:80;bottom:0"><i class="fa fa-chevron-down fa-3x bounce"></i></button>
+			</div>
+			<div id="menu_btn_list" class="btn-group-vertical" style="position:absolute;top:650;left:1180;z-index:999">
+			<button class="menu-btn btn" onclick="func()">Profile</button>
+			<button class="menu-btn btn">Experience</button>
+			<button class="menu-btn btn">Abilities</button>
+			<button class="menu-btn btn">Projects</button>
+			<button class="menu-btn btn">Contact</button>
+			</div>
+			<div id="profile_section" class="row" style="height:100%;width:100%">
+				
+				<!-- Will contain the Profile header -->
+				<div class="row">
+					<div class="col-xs-2">
+						
+					</div>
+					<div class="col-xs-8" align="center">
+						<div class="row">
+						<h1 style="font-size:55px;color:#000;font-family:Ubuntu">Profile</h1>
+						<h4 style="color:#000;font-family:Ubuntu">I'm a Software Developer and an ML enthusiast</h4>
+						<br />
+						<hr style="height:1px;border:none;color:#000;background-color:#000;"/>
+						</div>
+
+						<!-- Will contain the Profile Info -->
+						<div class="row">
+							<div class="col-xs-4" align="left">
+								<h3>About me</h3><br />
+								<h5>I am broadly interested in Software Engineering and the design of Machine Learning algorithms (with a particular interest in Bayesian Networks and Probabilistic Graphical Models). In addition, I am also interested in Evolutionary Algorithms (like Genetic Algorithm, Particle Swarm Optimization etc.). I have work experience in both Software Development, Bayesian Networks as well as Evolutionary meta-heuristics through various research projects during my undergraduate years. (Details of which can be found in my resume). Hence, I am greatly interested in work opportunities concerning software development, implementation/applicarion of Machine Learning techniques or meta-heuristic techniques for innovative technologies.</h5>
+							</div>
+							<div class="col-xs-4">
+								<div class="circle" style="margin-top:70px;background-image:url('profile.jpg');background-size:250px 200px;transform: rotate(-90deg);background-repeat:no-repeat"></div>
+							</div>
+							<div class="col-xs-4" align="left">
+								<h3>Details</h3><br />
+								<h4><b>Name:</b></h4>
+								<h5>Apoorv Patwardhan</h5><br />
+
+								<h4><b>Age:</b></h4>
+								<h5>23 years</h5><br />
+
+								<h4><b>Location:</b></h4>
+								<h5>New York City, USA, Earth</h5><br />
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				</div>
+				
+
+				<div id="experience_section" class="row" style="background-color:#bcc">
+				
+				<!-- Will contain the Experience header -->
+				<div class="row">
+					<div class="col-xs-2">
+						
+					</div>
+					<div class="col-xs-8" align="center">
+						<div class="row">
+						<h1 style="font-size:55px;color:#000;font-family:Ubuntu">Experiences</h1>
+						<h4 style="color:#000;font-family:Ubuntu">“Protons give an atom its identity, electrons its personality.”</h4>
+						<br />
+						<hr style="height:1px;border:none;color:#000;background-color:#000;"/>
+						</div>
+
+						<!-- Will contain the Info -->
+						<div class="row">
+							<div class="col-xs-12" align="center">
+								<div class="row" align="left">
+									<h2>Education</h2>
+								</div>
+								<!--Duplicate these rows-->
+								<div class="row" align="center">
+									<div class="col-xs-4" align="left">
+										<h4><b>Columbia University</b></h4>
+										<h5>Sep 2015 - Dec 2016</h5>
+									</div>
+									<div class="col-xs-8" align="left">
+										<h4><b>Masters - Computer Science</b></h4>
+										<h5>Gamification is the application of game elements and digital game design techniques to non-game problems, such as business and social impact challenges. This course thought me about the mechanisms of gamification, why it has such tremendous potential, and how to use it effectively.</h5>
+										<h5><span class="glyphicon glyphicon-map-marker"></span>New York City, USA</h5>
+									</div>
+								</div>
+								<!-------------------------->
+
+								<!--Duplicate these rows-->
+								<div class="row" align="center">
+									<div class="col-xs-4" align="left">
+										<h4><b>IIT Gandhinagar</b></h4>
+										<h5>July 2011 - Aug 2015</h5>
+									</div>
+									<div class="col-xs-8" align="left">
+										<h4><b>Bachelors - Electrical Engineering</b></h4>
+										<h5>Gamification is the application of game elements and digital game design techniques to non-game problems, such as business and social impact challenges. This course thought me about the mechanisms of gamification, why it has such tremendous potential, and how to use it effectively.</h5>
+										<h5><span class="glyphicon glyphicon-map-marker"></span>Ahmedabad, India</h5>
+									</div>
+								</div>
+								<!-------------------------->
+
+								<div class="row" align="center">
+									<hr />
+								</div>
+
+								<div class="row" align="left">
+									<h2>Career/Internships</h2>
+								</div>
+								<!--Duplicate these rows-->
+								<div class="row" align="center">
+									<div class="col-xs-4" align="left">
+										<h4><b>Tradeweb Markets LLC.</b></h4>
+										<h5>March 2017 - current</h5>
+									</div>
+									<div class="col-xs-8" align="left">
+										<h4><b>Fulltime - Assistant Vice President, Developer</b></h4>
+										<h5>Gamification is the application of game elements and digital game design techniques to non-game problems, such as business and social impact challenges. This course thought me about the mechanisms of gamification, why it has such tremendous potential, and how to use it effectively.</h5>
+										<h5><span class="glyphicon glyphicon-map-marker"></span>Jersey City, USA</h5>
+									</div>
+								</div>
+								<!-------------------------->
+
+								<!--Duplicate these rows-->
+								<div class="row" align="center">
+									<div class="col-xs-4" align="left">
+										<h4><b>3D-Matter Inc.</b></h4>
+										<h5>July 2011 - Aug 2015</h5>
+									</div>
+									<div class="col-xs-8" align="left">
+										<h4><b>Internship - Full Stack Engineer</b></h4>
+										<h5>Gamification is the application of game elements and digital game design techniques to non-game problems, such as business and social impact challenges. This course thought me about the mechanisms of gamification, why it has such tremendous potential, and how to use it effectively.</h5>
+										<h5><span class="glyphicon glyphicon-map-marker"></span>New York City, USA</h5>
+									</div>
+								</div>
+								<!-------------------------->
+
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				</div>
+			
+						
+		</div>
+		
+	</body>
 </html>
