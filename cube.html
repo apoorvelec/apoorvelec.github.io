@@ -1,0 +1,271 @@
+<html>
+<header>
+	<script type="text/javascript">
+		function rotate(condition){
+			var cube = document.getElementById("cube");
+			switch(condition){
+				case 'show-front':
+					cube.className = "show-front";
+					break;
+				case 'show-back':
+					cube.className = "show-back";
+					break;
+				case 'show-top':
+					cube.className = "show-top";
+					break;
+				case 'show-bottom':
+					cube.className = "show-bottom";
+					break;
+				case 'show-right':
+					cube.className = "show-right";
+					break;
+				case 'show-left':
+					cube.className = "show-left";
+					break;
+				case 'show-burst-mode':
+					cube.className = "show-burst-mode";
+					break;
+			}
+		}
+
+		function getRandomInt(min, max) {
+  			min = Math.ceil(min);
+  			max = Math.floor(max);
+  			return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+		}
+
+		setInterval(function () {
+       		rotateRandomCards();
+    	}, 2000);
+
+    	function rotateRandomCards(){
+    		var cube = document.getElementById("cube");
+    		if(cube.className === "show-burst-mode"){
+    			var cardno = getRandomInt(1,7);
+
+	    		switch(cardno){
+	    			case 1:
+	    				document.getElementById("top").classList.toggle("animated-top-win10");
+	    				break;
+	    			case 2:
+	    				document.getElementById("bottom").classList.toggle("animated-bottom-win10");
+	    				break;
+	    			case 3:
+	    				document.getElementById("front").classList.toggle("animated-front-win10");
+	    				break;
+	    			case 4:
+	    				document.getElementById("back").classList.toggle("animated-back-win10");
+	    				break;
+	    			case 5:
+	    				document.getElementById("right").classList.toggle("animated-right-win10");
+	    				break;
+	    			case 6:
+	    				document.getElementById("left").classList.toggle("animated-left-win10");
+	    				break;
+	    		}
+    		}
+    		
+    	}
+	</script>
+	<style>
+
+		:root{
+			--cube-side-length:200px;
+		}
+		.container{
+			width: var(--cube-side-length);
+			height: var(--cube-side-length);
+			perspective: 1000px;
+			margin-left:200px;
+			margin-top: 50px;
+		}
+
+		#cube{
+			width: 100%;
+			height: 100%;
+			transform-style: preserve-3d;
+			transition: transform 1s;
+		}
+
+		#cube figure {
+			position: absolute;
+		}
+
+		#front{
+			width: 100%;
+			height: 100%;
+			color: red;
+			background-color: red;
+			transform:translateZ( calc(var(--cube-side-length)/2) );
+			opacity: 0.5;
+			transition: transform 1s;
+		}
+
+		#back{
+			width: 100%;
+			height: 100%;
+			color: yellow;
+			background-color: yellow;
+			transform: rotateX(180deg) translateZ( calc(var(--cube-side-length)/2) );
+			opacity: 0.5;
+			transition: transform 1s;
+		}
+
+
+		#top{
+			width: 100%;
+			height: 100%;
+			color: black;
+			background-color: black;
+			transform: rotateX(90deg) translateZ( calc(var(--cube-side-length)/2) );
+			opacity: 0.5;
+			transition: transform 1s;
+		}
+
+		#bottom{
+			width: 100%;
+			height: 100%;
+			color: green;
+			background-color: green;
+			transform: rotateX(-90deg) translateZ( calc(var(--cube-side-length)/2) );
+			opacity: 0.5;
+			transition: transform 1s;
+		}
+
+		#right{
+			width: 100%;
+			height: 100%;
+			color: blue;
+			background-color: blue;
+			transform: rotateY(90deg) translateZ( calc(var(--cube-side-length)/2) );
+			opacity: 0.5;
+			transition: transform 1s;
+		}
+
+		@keyframes rotate-right{
+			0%,100%{
+				transform:translateX( var(--cube-side-length) ) rotateY(0deg);
+			}
+			50%{
+				transform:translateX( var(--cube-side-length) ) rotateY(180deg);
+			}
+		}
+
+		.animated-right-win10{
+			animation: rotate-right 3s;
+		}
+
+		@keyframes rotate-left{
+			0%,100%{
+				transform:translateX( calc(-1*var(--cube-side-length)) ) rotateY(0deg);
+			}
+			50%{
+				transform:translateX( calc(-1*var(--cube-side-length)) ) rotateY(180deg);
+			}
+		}
+
+		.animated-left-win10{
+			animation: rotate-left 3s;
+		}
+
+		@keyframes rotate-top{
+			0%,100%{
+				transform:translateY( calc(-1*var(--cube-side-length)) ) rotateY(0deg);
+			}
+			50%{
+				transform:translateY( calc(-1*var(--cube-side-length)) ) rotateY(180deg);
+			}
+		}
+
+		.animated-top-win10{
+			animation: rotate-top 3s;
+		}
+
+		@keyframes rotate-bottom{
+			0%,100%{
+				transform:translate3d( var(--cube-side-length), calc(-1*var(--cube-side-length)), 0px ) rotateY(0deg);
+			}
+			50%{
+				transform:translate3d( var(--cube-side-length), calc(-1*var(--cube-side-length)), 0px ) rotateY(180deg);
+			}
+		}
+
+		.animated-bottom-win10{
+			animation: rotate-bottom 3s;
+		}
+
+		@keyframes rotate-front{
+			0%,100%{
+				transform:translateX( 0px ) rotateY(0deg);
+			}
+			50%{
+				transform:translateX( 0px ) rotateY(180deg);
+			}
+		}
+
+		.animated-front-win10{
+			animation: rotate-front 3s;
+		}
+
+		@keyframes rotate-back{
+			0%,100%{
+				transform:translate3d( calc(-1*var(--cube-side-length)), calc(-1*var(--cube-side-length)), 0px ) rotateY(0deg);
+			}
+			50%{
+				transform:translate3d( calc(-1*var(--cube-side-length)), calc(-1*var(--cube-side-length)), 0px ) rotateY(180deg);
+			}
+		}
+
+		.animated-back-win10{
+			animation: rotate-back 3s;
+		}
+
+		#left{
+			width: 100%;
+			height: 100%;
+			color: grey;
+			background-color: grey;
+			transform: rotateY(-90deg) translateZ( calc(var(--cube-side-length)/2) );
+			opacity: 0.5;
+			transition: transform 1s;
+		}
+
+		#cube.show-front  { transform: translateZ( calc(-1*var(--cube-side-length)/2) ) rotateY(    0deg ); }
+		#cube.show-back   { transform: translateZ( calc(-1*var(--cube-side-length)/2) ) rotateX( -180deg ); }
+		#cube.show-right  { transform: translateZ( calc(-1*var(--cube-side-length)/2) ) rotateY(  -90deg ); }
+		#cube.show-left   { transform: translateZ( calc(-1*var(--cube-side-length)/2) ) rotateY(   90deg ); }
+		#cube.show-top    { transform: translateZ( calc(-1*var(--cube-side-length)/2) ) rotateX(  -90deg ); }
+		#cube.show-bottom { transform: translateZ( calc(-1*var(--cube-side-length)/2) ) rotateX(   90deg ); }
+
+		#cube.show-burst-mode #right{ transform:translateX( var(--cube-side-length) ); }
+		#cube.show-burst-mode #left{ transform:translateX( calc(-1*var(--cube-side-length)) ); }
+		#cube.show-burst-mode #top{ transform:translateY( calc(-1*var(--cube-side-length)) ); }
+		#cube.show-burst-mode #bottom{ transform:translate3d(var(--cube-side-length), calc(-1*var(--cube-side-length)), 0px); }
+		#cube.show-burst-mode #back{ transform:translate3d(calc(-1*var(--cube-side-length)), calc(-1*var(--cube-side-length)), 0px); }
+		#cube.show-burst-mode #front{ transform:translate3d(0px, 0px, 0px); }
+	</style>
+</header>
+<body>
+	<br><br><br><br><br><br>
+	<div class="container">
+		<div id="cube">
+			<figure id="front"></figure>
+			<figure id="back"></figure>
+			<figure id="top"></figure>
+			<figure id="bottom"></figure>
+			<figure id="right"></figure>
+			<figure id="left"></figure>
+		</div>
+	</div>
+	<br><br><br><br><br><br>
+	<div>
+		<Button class="show-front" onclick="rotate('show-front')">Show Front</Button>
+		<Button class="show-back" onclick="rotate('show-back')">Show Back</Button>
+		<Button class="show-right" onclick="rotate('show-right')">Show Right</Button>
+		<Button class="show-left" onclick="rotate('show-left')">Show Left</Button>
+		<Button class="show-top" onclick="rotate('show-top')">Show Top</Button>
+		<Button class="show-bottom" onclick="rotate('show-bottom')">Show Bottom</Button>
+		<Button class="show-burst-mode" onclick="rotate('show-burst-mode')">Show Burst</Button>
+	</div>
+</body>
+</html>
