@@ -1,0 +1,108 @@
+.IntroDisplay{
+			width: 103%;
+			height: 101%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-image: url('IMG_3317.JPG');
+			background-repeat: no-repeat;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+			background-attachment: fixed;
+			position: relative;
+		}
+
+		.circle {
+      		width: 200px;
+      		height: 200px;
+      		-webkit-border-radius: 100px;
+      		-moz-border-radius: 100px;
+      		border-radius: 100px;
+    	}
+
+		.menu-btn{
+			width: 100px;
+			height: 80px;
+			color: #333;
+		}
+
+		.btn-group-vertical{
+			width: 100px;
+		}
+
+		.menu{
+			position: sticky;
+			top:10px;
+			z-index: 10;
+		}
+
+		.fa-chevron-down{
+			margin-top: 0px;
+		}
+
+		/*For Mozilla FireFox*/
+		@-moz-keyframes bounce {
+  			0%, 18%, 50%, 80%, 100% {
+    		-moz-transform: translateY(0);
+    		transform: translateY(0);
+  			}
+  			40% {
+    			-moz-transform: translateY(18px);
+    			transform: translateY(18px);
+  			}
+			60% {
+			    -moz-transform: translateY(15px);
+			    transform: translateY(15px);
+			}
+		}
+
+		@-webkit-keyframes bounce {
+			0%, 18%, 50%, 80%, 100% {
+			    -webkit-transform: translateY(0);
+			    transform: translateY(0);
+			}
+		  	40% {
+		    	-webkit-transform: translateY(18px);
+		    	transform: translateY(18px);
+		  	}
+		  	60% {
+		    	-webkit-transform: translateY(15px);
+		  	  	transform: translateY(15px);
+		  	}
+		}
+
+		/*For Google Chrome*/
+		@keyframes bounce {
+			0%, 18%, 50%, 70%, 100% {
+			    -moz-transform: translateY(0);
+			    -ms-transform: translateY(0);
+			    -webkit-transform: translateY(0);
+			    transform: translateY(0);
+			}
+  			40% {
+    			-moz-transform: translateY(18px);
+    			-ms-transform: translateY(18px);
+    			-webkit-transform: translateY(18px);
+    			transform: translateY(18px);
+  			}
+  			60% {
+    			-moz-transform: translateY(15px);
+    			-ms-transform: translateY(15px);
+    			-webkit-transform: translateY(15px);
+    			transform: translateY(15px);
+  			}
+  			80% {
+    			-moz-transform: translateY(10px);
+    			-ms-transform: translateY(10px);
+    			-webkit-transform: translateY(10px);
+    			transform: translateY(10px);
+  			}
+		}
+
+		.bounce {
+			-moz-animation: bounce 2s infinite;
+		  	-webkit-animation: bounce 2s infinite;
+		  	animation: bounce 2s infinite;
+		}
