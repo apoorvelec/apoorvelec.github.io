@@ -8,11 +8,12 @@ $(document).ready(function() {
       				if(scrollPos>introDivHeight - distFromTopForStickinessToStart){
       					document.getElementById('menu_btn_list').style.position = "fixed";
       					document.getElementById('menu_btn_list').style.top = distFromTopForStickinessToStart;
+                /*
                 if(scrollPos>3800){
                   rotate("show-burst-mode");
                 }else{
                   rotate("show-back");
-                }
+                }*/
       				}else{
       					document.getElementById('menu_btn_list').style.position = "absolute";
       					document.getElementById('menu_btn_list').style.top = introDivHeight;
@@ -24,6 +25,9 @@ $(document).ready(function() {
   			function menuButtonClick(btnName){
   				var section_id = "";
   				switch(btnName){
+            case 'DownArrow':
+              section_id="#profile_section";
+              break;
   					case 'Profile':
   						section_id="#profile_section";
   						break;

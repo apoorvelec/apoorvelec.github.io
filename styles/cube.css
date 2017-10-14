@@ -5,8 +5,6 @@
 			width: var(--cube-side-length);
 			height: var(--cube-side-length);
 			perspective: 1000px;
-			margin-left:200px;
-			margin-top: 50px;
 		}
 
 		#cube{
@@ -18,6 +16,27 @@
 
 		#cube figure {
 			position: absolute;
+		}
+
+		#cube div {
+			position: absolute;
+		}
+
+		.frontface, .backface{
+			-webkit-backface-visibility: hidden;
+			position: absolute;
+		}
+
+		/* front pane, placed above back */
+		.frontface {
+			z-index: 2;
+			/* for firefox 31 */
+			transform: rotateY(0deg);
+		}
+
+		/* back, initially hidden pane */
+		.backface {
+			transform: rotateY(180deg);
 		}
 
 		#front{

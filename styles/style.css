@@ -106,3 +106,11 @@
 		  	-webkit-animation: bounce 2s infinite;
 		  	animation: bounce 2s infinite;
 		}
+
+		a:hover{
+			color: white;
+		}
+
+		a{
+			color: rgb(211,211,211);
+		}
