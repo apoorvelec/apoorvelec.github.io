@@ -114,3 +114,23 @@
 		a{
 			color: rgb(211,211,211);
 		}
+
+		.col-xs-4:hover .fa-star{
+			color: #F00;
+			margin-right: 2px;
+			font-size: 16px;
+			transition:0.6s;
+		}
+
+		.col-xs-4:hover .fa-star-half{
+			color: #F00;
+			margin-right: 2px;
+			font-size: 16px;
+			transition:.06s;
+		}
+
+		.col-xs-4:hover .fa-star-o{
+			margin-right: 2px;
+			font-size: 16px;
+			transition:.06s;
+		}
