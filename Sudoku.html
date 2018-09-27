@@ -1,0 +1,681 @@
+<html>
+
+<header>
+		<title>Play Sudoku!</title>
+
+		<meta charset="utf-8">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link href='https://fonts.googleapis.com/css?family=Viga' rel='stylesheet'>
+  		<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'>
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</header>
+  <style>
+    .form-control{
+      width:50px;
+      height: 50px;
+      margin:0 0 0 0;
+      padding: 0 0 0 0;
+      text-align: center;
+      font-size: 20;
+      background-color: rgba(200,255,200,0.1);
+      border: 1px solid rgba(0,255,0,0.4);
+      color: rgba(255,140,0,1);
+    }
+
+    .form-control:hover{
+      background-color: #fff;
+      border: 4px solid rgba(0,255,0,0.6);
+    }
+
+    .form-control:disabled{
+      background-color: rgba(0,255,0,0.2);
+      border: 1px solid rgba(0,255,0,0.4);
+      color: rgba(128,0,0,1);
+      font-weight: bolder;
+    }
+
+    .form-group{
+      margin:0 0 0 0;
+      padding: 0 0 0 0;
+    }
+
+    .col-xs-1{
+      width: 50px;
+      margin:0 0 0 0;
+      padding: 0 0 0 0;
+    }
+
+    .row{
+      padding: 0 0 0 0;
+    }
+
+    .div{
+      padding: 0 0 0 0;
+    }
+
+  </style>
+
+  <script type="text/javascript">
+    var trySolveSudoku = function(){
+      var input2DArray = new Array(9);
+      for (var i = 0; i <= 8; i++) {
+        input2DArray[i] = new Array(9);
+      }
+
+      for(var i = 0; i <= 8; i++){
+        for(var j = 0; j <= 8; j++){
+          input2DArray[i][j] = parseInt(document.getElementById(i.toString()+j.toString()).value);  
+        }  
+      }
+
+      //Sanity checks
+      var noObviousConflictsInGrid = true;
+      for(var i = 0; i <= 8; i++){
+        for(var j = 0; j <= 8; j++){
+          if(!isNaN(input2DArray[i][j])){
+            var temp = input2DArray[i][j];
+            input2DArray[i][j] = NaN;
+            noObviousConflictsInGrid = noObviousConflictsInGrid && isSafe(input2DArray, i, j, temp);
+            input2DArray[i][j] = temp;
+            if(!noObviousConflictsInGrid){
+              alert("invalid sudoku question!!! cannot be solved");
+              return;
+            }
+          }  
+        }  
+      }
+
+      if(solveSudoku(input2DArray)){
+        for(var i = 0; i <= 8; i++){
+          for(var j = 0; j <= 8; j++){
+            document.getElementById(i.toString()+j.toString()).value = input2DArray[i][j];  
+          }  
+        }
+      }else{
+        alert("invalid sudoku question!!! cannot be solved");
+      }
+      
+    }
+
+    var solveSudoku = function(input2DArray){
+      var rowcol = findUnassignedLocation(input2DArray);
+      console.log(rowcol);
+      if(isNaN(rowcol[0]) && isNaN(rowcol[1])){
+        //console.log("sudoku solved!!");
+        return true;
+      }
+      var row = rowcol[0];
+      var col = rowcol[1];
+
+      for(var digit = 1;digit<=9;digit++){
+        
+        if(isSafe(input2DArray, row, col, digit)){
+          input2DArray[row][col] = digit;
+          if(solveSudoku(input2DArray)){
+            return true;
+          }else{
+            input2DArray[row][col] = NaN;
+          }
+        }
+      }
+
+      return false;
+    }
+
+    var findNextAssignedLocation = function(input2DArray){
+      var rowcol = new Array(2);
+      for(var row = 0;row<9;row++){
+        for(var col = 0;col<9;col++){
+          if(!isNaN(input2DArray[row][col])){
+            rowcol[0] = row;
+            rowcol[1] = col;
+            return rowcol;
+          }
+        }
+      }
+      rowcol[0] = NaN;
+      rowcol[1] = NaN;
+      return rowcol;
+    }
+
+    var findUnassignedLocation = function(input2DArray){
+      var rowcol = new Array(2);
+      for(var row = 0;row<9;row++){
+        for(var col = 0;col<9;col++){
+          if(isNaN(input2DArray[row][col])){
+            rowcol[0] = row;
+            rowcol[1] = col;
+            return rowcol;
+          }
+        }
+      }
+      rowcol[0] = NaN;
+      rowcol[1] = NaN;
+      return rowcol;
+    }
+
+    var usedInRow = function(input2DArray, row, num){
+      for(var col = 0;col<9;col++){
+        if(input2DArray[row][col] == num){
+          return true;
+        }
+      }
+      return false;
+    }
+
+    var usedInColumn = function(input2DArray, col, num){
+      for(var row = 0;row<9;row++){
+        if(input2DArray[row][col] == num){
+          return true;
+        }
+      }
+      return false;
+    }
+
+    var usedInBox = function(input2DArray, boxStartRow, boxStartCol, num){
+      for(var row = 0;row<3;row++){
+        for(var col = 0;col<3;col++){
+          if(input2DArray[row+boxStartRow][col+boxStartCol] == num){
+            return true;
+          }
+        }  
+      }
+      return false;
+    }
+
+    var isSafe = function(input2DArray, row, col, num){
+      return (!usedInRow(input2DArray, row, num) &&
+      !usedInColumn(input2DArray, col, num) &&
+      !usedInBox(input2DArray, row-row%3, col-col%3, num));
+    }
+
+    var clearSudokuGrid = function(){
+      for(var i = 0; i <= 8; i++){
+        for(var j = 0; j <= 8; j++){
+          document.getElementById(i.toString()+j.toString()).value = "";
+          document.getElementById(i.toString()+j.toString()).disabled = false;  
+        }  
+      }
+    }
+
+    var populateSudokuGrid = function(input2DArray){
+      for(var i = 0; i <= 8; i++){
+        for(var j = 0; j <= 8; j++){
+          document.getElementById(i.toString()+j.toString()).value = input2DArray[i][j];
+          if(!(input2DArray[i][j] === "")){
+            document.getElementById(i.toString()+j.toString()).disabled = true;
+          }  
+        }  
+      }
+    }
+
+    var tryCreateSudoku = function(){
+      //document.getElementById("00").disabled = true;
+      clearSudokuGrid();
+      var input2DArray = new Array(9);
+      for (var i = 0; i <= 8; i++) {
+        input2DArray[i] = new Array(9);
+      }
+
+      for(var i = 0; i <= 8; i++){
+        for(var j = 0; j <= 8; j++){
+          input2DArray[i][j] = NaN;  
+        }  
+      }
+
+      //this generates a valid solution
+      //this solution is the same everytime
+      //so we need to shuffle the rows/columns randomly
+      solveSudoku(input2DArray);
+
+      for(var i=0;i<100;i++){
+        var rand = Math.random();
+        if(rand<0.5){
+          shuffleRowsRandomly(input2DArray);
+        }else{
+          shuffleColumnsRandomly(input2DArray);
+        }
+      }
+      console.log("shuffling done!");
+      var numOfValuesDeleted = 0;
+      var maxNumOfValuesToBeDeleted = 30; // if you want to increase the difficulty increase this number
+      while(numOfValuesDeleted<maxNumOfValuesToBeDeleted){
+        var rowIndexToBeDeleted = Math.round(Math.random()*8);
+        var columnIndexToBeDeleted = Math.round(Math.random()*8);
+
+        var stored = input2DArray[rowIndexToBeDeleted][columnIndexToBeDeleted];
+        input2DArray[rowIndexToBeDeleted][columnIndexToBeDeleted] = "";
+
+        if(isSudokuUniquelySolvable(getGridCopy(input2DArray))){
+          numOfValuesDeleted = numOfValuesDeleted + 1;
+        }else{
+          input2DArray[rowIndexToBeDeleted][columnIndexToBeDeleted] = stored;
+        }
+      }
+      console.log(input2DArray);
+      populateSudokuGrid(input2DArray);
+      //console.log(isSudokuUniquelySolvable(input2DArray));
+    }
+
+    var shuffleRowsRandomly = function(input2DArray){
+      var rand = Math.random();
+
+      if(rand<0.3){ // shuffle rows between 0-2 indices
+        var randomIndex1 = Math.round(Math.random()*2);
+        var randomIndex2 = Math.round(Math.random()*2);
+        while(randomIndex2 == randomIndex1){
+          randomIndex2 = Math.round(Math.random()*2);
+        } 
+        //after choosing the row indices to swap, do the swap here
+        var temp = input2DArray[randomIndex2].slice(0);
+        input2DArray[randomIndex2] = input2DArray[randomIndex1].slice(0);
+        input2DArray[randomIndex1] = temp;
+      }else if(rand>=0.3 && rand<0.6){ // shuffle rows between 3-5 indices
+        var randomIndex1 = Math.round(Math.random()*2)+3;
+        var randomIndex2 = Math.round(Math.random()*2)+3;
+        while(randomIndex2 == randomIndex1){
+          randomIndex2 = Math.round(Math.random()*2)+3;
+        } 
+        //after choosing the row indices to swap, do the swap here
+        var temp = input2DArray[randomIndex2].slice(0);
+        input2DArray[randomIndex2] = input2DArray[randomIndex1].slice(0);
+        input2DArray[randomIndex1] = temp;
+      }else{ // shuffle rows between 6-8 indices
+        var randomIndex1 = Math.round(Math.random()*2)+6;
+        var randomIndex2 = Math.round(Math.random()*2)+6;
+        while(randomIndex2 == randomIndex1){
+          randomIndex2 = Math.round(Math.random()*2)+6;
+        } 
+        //after choosing the row indices to swap, do the swap here
+        var temp = input2DArray[randomIndex2].slice(0);
+        input2DArray[randomIndex2] = input2DArray[randomIndex1].slice(0);
+        input2DArray[randomIndex1] = temp;
+      }
+    }
+
+    //Classic case of code reuse
+    var shuffleColumnsRandomly = function(input2DArray){
+      input2DArray = transpose(input2DArray);
+      shuffleRowsRandomly(input2DArray);
+      input2DArray = transpose(input2DArray);
+    }
+
+    // This function doesn't modify the argument array but returns a copy of the transposed array
+    function transpose(a)
+    {
+      return a[0].map(function (_, c) { return a.map(function (r) { return r[c]; }); });
+    }
+
+    var isSudokuUniquelySolvable = function(input2DArray){
+      var input2DArrayCopy = getGridCopy(input2DArray);
+
+      var rowcol = findUnassignedLocation(input2DArray);
+      //console.log(rowcol);
+      if(isNaN(rowcol[0]) && isNaN(rowcol[1])){
+        //console.log("sudoku solved!!");
+        return true;
+      }
+      var row = rowcol[0];
+      var col = rowcol[1];
+      var numOfSolutions = 0;
+      for(var digit = 1;digit<=9;digit++){
+        
+        if(isSafe(input2DArray, row, col, digit)){
+          input2DArray[row][col] = digit;
+          if(solveSudoku(input2DArray)){
+            numOfSolutions = numOfSolutions + 1;
+            //reset grid
+            input2DArray = input2DArrayCopy;
+            if(numOfSolutions>1){
+              return false;
+            }
+            continue;
+          }else{
+            input2DArray[row][col] = NaN;
+          }
+        }
+      }
+
+      return true;
+    }
+
+    //Currently works only for 9x9 grid size
+    var getGridCopy = function(input2DArray){
+      var input2DArrayCopy = new Array(9);
+      for (var i = 0; i <= 8; i++) {
+        input2DArrayCopy[i] = new Array(9);
+      }
+
+      for(var i = 0; i <= 8; i++){
+        for(var j = 0; j <= 8; j++){
+          input2DArrayCopy[i][j] = input2DArray[i][j];  
+        }  
+      }
+      return input2DArrayCopy;
+    }
+
+    var checkIfSudokuSolved = function(){
+      //get the grid from the UI
+      var input2DArray = new Array(9);
+      for (var i = 0; i <= 8; i++) {
+        input2DArray[i] = new Array(9);
+      }
+
+      for(var i = 0; i <= 8; i++){
+        for(var j = 0; j <= 8; j++){
+          input2DArray[i][j] = parseInt(document.getElementById(i.toString()+j.toString()).value);  
+        }  
+      }
+      ///////////////////////////////
+      var isSolutionCorrect = true;
+      for(var i = 0; i <= 8; i++){
+        for(var j = 0; j <= 8; j++){
+          var temp = input2DArray[i][j];
+          if(isNaN(temp) || temp === ""){
+            isSolutionCorrect = false;
+            break;
+          }
+          input2DArray[i][j] = "";
+          isSolutionCorrect = isSolutionCorrect && isSafe(input2DArray, i,j, temp); 
+          input2DArray[i][j] = temp;
+        }
+      }
+
+      if(isSolutionCorrect){
+        alert("Kudos!");
+      }
+    }
+  </script>
+
+  <body>
+    <div class="container">
+      <div class="col-xs-3">
+      </div>
+
+      <div class="col-xs-6">
+      <div class="row">
+        <h2>The Sudoku</h2>
+        <ul>
+          <li> -> Input your Sudoku problem and use the Solve Grid Button to solve it</li>
+          <li> -> Press New Game to get a new sudoku challenge</li>
+          <li> -> Press Clear Grid to clear the grid</li>
+        </ul>
+        <Button class="btn btn-success" OnClick="trySolveSudoku()">Solve Grid!</Button>
+        <Button class="btn btn-danger" OnClick="tryCreateSudoku()">New Game</Button>
+        <Button class="btn btn-warning" OnClick="clearSudokuGrid()">Clear Grid</Button>
+        <br />
+      </div>
+      <form >
+        <div class="row no-gutters">
+          <div class="col-xs-1">
+            <input class="form-control" id="00" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="01" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="02" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="03" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="04" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="05" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="06" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="07" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="08" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-xs-1">
+            <input class="form-control" id="10" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="11" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="12" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="13" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="14" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="15" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="16" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="17" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="18" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-xs-1">
+            <input class="form-control" id="20" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="21" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="22" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey;border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="23" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="24" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="25" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey;border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="26" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="27" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="28" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey">
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-xs-1">
+            <input class="form-control" id="30" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="31" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="32" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="33" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="34" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved();checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="35" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="36" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="37" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="38" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-xs-1">
+            <input class="form-control" id="40" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="41" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="42" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="43" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="44" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="45" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="46" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="47" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="48" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-xs-1">
+            <input class="form-control" id="50" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="51" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="52" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey;border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="53" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="54" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="55" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey;border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="56" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="57" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="58" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-bottom: 5px solid grey">
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-xs-1">
+            <input class="form-control" id="60" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="61" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="62" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="63" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="64" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="65" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="66" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="67" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="68" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-xs-1">
+            <input class="form-control" id="70" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="71" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="72" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="73" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="74" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="75" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="76" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="77" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="78" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-xs-1">
+            <input class="form-control" id="80" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="81" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="82" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="83" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="84" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="85" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1"  style="border-right: 5px solid grey">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="86" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="87" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+          <div class="col-xs-1">
+            <input class="form-control" id="88" type="text" onkeyup="this.value = this.value.replace(/[^1-9]/, '');checkIfSudokuSolved()" maxlength="1">
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-xs-3">
+      </div>
+    </div>
+  </body>
+
+</html>
