@@ -31,11 +31,83 @@
                 super(props);
                 this.state = { m: props.m, n:props.n, snake:['0:0', '0:1', '0:2'] };
             }
+
+            deepCopyStringArray(arr) {
+                return arr.map(str => String(str));
+            }
+
+            /**
+                dir can be 'U', 'D', 'L', 'R'
+            */
+            moveSnakeByOne(dir) {
+                var head = this.state.snake[this.state.snake.length-1];
+                var tail = this.state.snake[0];
+
+                var headArr = head.split(':');
+                var headi = headArr[0];
+                var headj = headArr[1];
+
+                var newHeadi = -1;
+                var newHeadj = -1;
+                switch(dir) {
+                    case 'U':
+                        // code block
+                        if(headi-1>=0){
+                            newHeadi = headi-1;
+                            newHeadj = headj;
+                        }else{
+                            newHeadi = this.state.m-1;
+                            newHeadj = headj;
+                        }
+                        break;
+                    case 'D':
+                        // code block
+                        if(headi+1<this.state.m){
+                            newHeadi = headi+1;
+                            newHeadj = headj;
+                        }else{
+                            newHeadi = 0;
+                            newHeadj = headj;
+                        }
+                        break;
+                    case 'L':
+                        // code block
+                        if(headj-1>=0){
+                            newHeadi = headi;
+                            newHeadj = headj-1;
+                        }else{
+                            newHeadi = headi;
+                            newHeadj = this.state.n-1;
+                        }
+                        break;
+                    case 'R':
+                        // code block
+                        if(headj+1<this.state.n){
+                            newHeadi = headi;
+                            newHeadj = headj+1;
+                        }else{
+                            newHeadi = headi;
+                            newHeadj = 0;
+                        }
+                        break;
+                    default:
+                        // code block
+                        throw new Error('Invalid dir:'+dir);
+                }
+
+                var snakeDeepCopy = this.deepCopyStringArray(this.state.snake);
+                snakeDeepCopy.push(newHeadi+':'+newHeadj);
+                snakeDeepCopy.shift();
+                this.setState({
+                    ...this.state,
+                    snake: snakeDeepCopy
+                })
+            }
             
             render() {
                 const style = {
                   display: 'grid',
-                  gridTemplateRows: 'repeat('+this.state.m+', 0fr)',
+                  gridTemplateColumns: 'repeat('+this.state.n+', 0fr)',
                   gap: '0px',
                 };
             
@@ -56,6 +128,9 @@
                       </div>
                     ))}
                   </div>
+                  <button onClick={() => this.moveSnakeByOne('R')}>
+                    MoveSnake
+                  </button>
                 );
             }
         }
