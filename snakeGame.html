@@ -11,10 +11,17 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
         class Cell extends React.Component {
-            
+
+            /**
+            Note that here (in child component) we haven't kept
+            a state object to avoid an anti-pattern.
+            Using state here becomes a problem when the parent state changes and
+            those are propagated to the child via props. If the state object is initialized via props,
+            any prop change won't be propagated to the child.
+            So keeping everything dependent directly on props is recommended for simple child components.
+            */
             constructor(props) {
                 super(props);
-                //this.state = { id:props.id, i: props.i, j:props.j, cellSize:props.cellSize, isSnakeCell:props.isSnakeCell};
             }
             
             render() {
@@ -33,11 +40,37 @@
             
             constructor(props) {
                 super(props);
-                // const [m, setM] = React.useState(props.m);
-                // const [n, setN] = React.useState(props.n);
-                // const [snake, setSnake] = React.useState(['0:0', '0:1', '0:2']);
-                this.state = { m: props.m, n:props.n, snake:['0:0', '0:1', '0:2'] };
+                this.state = { m: props.m, n:props.n, snake:['0:0', '0:1', '0:2'], snakeHeadDir:'R' };
                 this.moveSnakeByOne = this.moveSnakeByOne.bind(this);
+                this.startGame = this.startGame.bind(this);
+                this.keyDown = this.keyDown.bind(this);
+            }
+
+            keyDown(event){
+                var newDir = '';
+                switch(event.code){
+                    case 'ArrowLeft':
+                        newDir = 'U';
+                        break;
+                    case 'ArrowRight':
+                        newDir = 'D';
+                        break;
+                    case 'ArrowUp':
+                        newDir = 'L';
+                        break;
+                    case 'ArrowDown':
+                        newDir = 'R';
+                        break;
+                    default:
+                        throw new Error("Invalid code:"+event.code);
+                }
+                
+                this.setState(prevState => ({
+                    ...prevState,
+                    snakeHeadDir: newDir
+                }), () => {
+                    console.log("Changed dir:"+this.state);
+                });
             }
 
             deepCopyStringArray(arr) {
@@ -110,7 +143,7 @@
                 console.log('newHeadi:'+newHeadi);
                 console.log('newHeadj:'+newHeadj);
 
-                var snakeDeepCopy = this.state.snake.slice();
+                var snakeDeepCopy = this.deepCopyStringArray(this.state.snake);
                 snakeDeepCopy.push(newHeadi+':'+newHeadj);
                 snakeDeepCopy.shift();
                 console.log(snakeDeepCopy);
@@ -120,6 +153,16 @@
                 }), () => {
                     console.log(this.state);
                 });
+            }
+
+            startGame(){
+                while(true){
+                    var millisecondsToWait = 1000;
+                    setTimeout(function() {
+                        // Whatever you want to do after the wait
+                        this.moveSnakeByOne(String(this.state.snakeHeadDir));
+                    }, millisecondsToWait);
+                }
             }
             
             render() {
@@ -147,9 +190,10 @@
                       </div>
                     ))}
                   </div>
-                  <button onClick={() => this.moveSnakeByOne('R')}>
-                    MoveSnake
+                  <button onClick={() => this.startGame()}>
+                    Start Game
                   </button>
+                  <input type='text' onKeyDown={keyDown} placeholder='Press here...' />
                     </div>
                 );
             }
