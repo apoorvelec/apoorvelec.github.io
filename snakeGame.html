@@ -10,7 +10,7 @@
             
             constructor(props) {
                 super(props);
-                this.state = { key:props.key, i: props.i, j:props.j, cellSize:props.cellSize};
+                this.state = { id:props.id, i: props.i, j:props.j, cellSize:props.cellSize};
             }
             
             render() {
@@ -52,7 +52,7 @@
                   <div style={style}>
                     {board.map((row, rowNum) => (
                       <div className="row">
-                       {row.map((elem, colNum) => (<Cell key={rowNum+':'+colNum} i={rowNum} j={colNum} cellSize={'50px'}></Cell>))}
+                       {row.map((elem, colNum) => (<Cell key={rowNum+':'+colNum} id={rowNum+':'+colNum} i={rowNum} j={colNum} cellSize={'50px'}></Cell>))}
                       </div>
                     ))}
                   </div>
