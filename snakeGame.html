@@ -1,16 +1,25 @@
 <html>
+    <style>
+        .cell {
+          width: 20px;
+          height: 20px;
+          background-color: white;
+          outline: 1px solid rgba(144, 175, 175, 0.75);
+          display: inline-block;
+        }
+    </style>
     <body><div id="root"></div></body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
     <script type="text/babel">
-        class Greeting extends React.Component {
+        class Cell extends React.Component {
             render() {
-                return (<p>Hello world</p>);
+                return (<div className="cell"></div>);
             }
         }
         ReactDOM.render(
-            <Greeting />,
+            <Cell />,
             document.getElementById('root')
         );
     </script>
