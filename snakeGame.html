@@ -156,8 +156,8 @@
             }
 
             startGame(){
-                var millisecondsToWait = 1000;
-                setTimeout(() => {
+                var millisecondsToWait = 500;
+                setInterval(() => {
                     this.moveSnakeByOne(String(this.state.snakeHeadDir));
                 }, millisecondsToWait);
             }
