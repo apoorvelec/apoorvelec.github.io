@@ -156,9 +156,10 @@
             }
 
             startGame(){
-                this.moveSnakeByOne(String(this.state.snakeHeadDir));
                 var millisecondsToWait = 1000;
-                setTimeout(this.startGame, millisecondsToWait);
+                setTimeout(() => {
+                    this.moveSnakeByOne(String(this.state.snakeHeadDir));
+                }, millisecondsToWait);
             }
             
             render() {
