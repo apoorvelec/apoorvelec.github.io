@@ -40,12 +40,16 @@
                 dir can be 'U', 'D', 'L', 'R'
             */
             moveSnakeByOne(dir) {
+                console.log(dir);
                 var head = this.state.snake[this.state.snake.length-1];
                 var tail = this.state.snake[0];
 
                 var headArr = head.split(':');
                 var headi = headArr[0];
                 var headj = headArr[1];
+
+                console.log('headi:'+headi);
+                console.log('headj:'+headj);
 
                 var newHeadi = -1;
                 var newHeadj = -1;
@@ -95,13 +99,19 @@
                         throw new Error('Invalid dir:'+dir);
                 }
 
+                console.log('newHeadi:'+newHeadi);
+                console.log('newHeadj:'+newHeadj);
+
                 var snakeDeepCopy = this.deepCopyStringArray(this.state.snake);
                 snakeDeepCopy.push(newHeadi+':'+newHeadj);
                 snakeDeepCopy.shift();
+                console.log(snakeDeepCopy);
                 this.setState({
                     ...this.state,
                     snake: snakeDeepCopy
-                })
+                });
+
+                console.log(this.state);
             }
             
             render() {
