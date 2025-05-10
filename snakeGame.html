@@ -30,6 +30,7 @@
             constructor(props) {
                 super(props);
                 this.state = { m: props.m, n:props.n, snake:['0:0', '0:1', '0:2'] };
+                this.moveSnakeByOne = this.moveSnakeByOne.bind(this);
             }
 
             deepCopyStringArray(arr) {
@@ -109,9 +110,9 @@
                 this.setState({
                     ...this.state,
                     snake: snakeDeepCopy
+                }, () => {
+                    console.log(this.state)
                 });
-
-                console.log(this.state);
             }
             
             render() {
