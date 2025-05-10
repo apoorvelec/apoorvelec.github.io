@@ -1,12 +1,5 @@
 <html>
     <style>
-        .cell {
-          width: 20px;
-          height: 20px;
-          background-color: white;
-          outline: 1px solid rgba(144, 175, 175, 0.75);
-          display: inline-block;
-        }
     </style>
     <body><div id="root"></div></body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js"></script>
@@ -24,7 +17,7 @@
                 const style = {
                   width: this.state.cellSize,
                   height: this.state.cellSize,
-                  'background-color': 'white',
+                  backgroundColor: 'white',
                   outline: '1px solid rgba(144, 175, 175, 0.75)',
                   display: 'inline-block',
                 };
@@ -42,7 +35,7 @@
             render() {
                 const style = {
                   display: 'grid',
-                  'grid-template-columns': 'repeat('+this.state.n+', 0fr)',
+                  gridTemplateColumns: 'repeat('+this.state.n+', 0fr)',
                   gap: '0px',
                 };
             
