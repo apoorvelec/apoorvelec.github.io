@@ -14,18 +14,18 @@
             
             constructor(props) {
                 super(props);
-                this.state = { id:props.id, i: props.i, j:props.j, cellSize:props.cellSize, isSnakeCell:props.isSnakeCell};
+                //this.state = { id:props.id, i: props.i, j:props.j, cellSize:props.cellSize, isSnakeCell:props.isSnakeCell};
             }
             
             render() {
                 const style = {
-                  width: this.state.cellSize,
-                  height: this.state.cellSize,
+                  width: this.props.cellSize,
+                  height: this.props.cellSize,
                   backgroundColor: 'white',
                   outline: '1px solid rgba(144, 175, 175, 0.75)',
                   display: 'inline-block',
                 };
-                return (<div style={style}>{this.state.isSnakeCell?'S':''}</div>);
+                return (<div style={style}>{this.props.isSnakeCell?'S':''}</div>);
             }
         }
 
@@ -114,7 +114,12 @@
                 snakeDeepCopy.push(newHeadi+':'+newHeadj);
                 snakeDeepCopy.shift();
                 console.log(snakeDeepCopy);
-                this.setState({});
+                this.setState(prevState => ({
+                    ...prevState,
+                    snake: snakeDeepCopy
+                }), () => {
+                    console.log(this.state);
+                });
             }
             
             render() {
