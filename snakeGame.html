@@ -37,14 +37,14 @@
                 super(props);
                 this.state = { m: props.m, n:props.n };
             }
-
-            const style = {
-              display: grid;
-              grid-template-columns: repeat(7, 0fr);
-              gap: 20px;
-            };
             
             render() {
+                const style = {
+                  display: grid;
+                  grid-template-columns: repeat(7, 0fr);
+                  gap: 20px;
+                };
+            
                 var board = [];
                 for(var i=0;i<this.state.m;i++){
                     var row = [];
@@ -53,6 +53,7 @@
                     }
                     board.push(row);
                 }
+        
                 return (
                   <div style={style}>
                     {board.map((row, rowNum) => (
