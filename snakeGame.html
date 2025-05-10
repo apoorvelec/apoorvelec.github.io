@@ -7,12 +7,6 @@
           outline: 1px solid rgba(144, 175, 175, 0.75);
           display: inline-block;
         }
-
-        .grid {
-          display: grid;
-          grid-template-columns: repeat(7, 0fr);
-          gap: 20px;
-        }
     </style>
     <body><div id="root"></div></body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js"></script>
@@ -23,11 +17,18 @@
             
             constructor(props) {
                 super(props);
-                this.state = { i: props.i, j:props.j };
+                this.state = { key:props.key, i: props.i, j:props.j cellSize:props.cellSize};
             }
             
             render() {
-                return (<div className="cell"></div>);
+                const style = {
+                  width: this.state.cellSize,
+                  height: this.state.cellSize,
+                  'background-color': white,
+                  outline: '1px solid rgba(144, 175, 175, 0.75)',
+                  display: 'inline-block',
+                };
+                return (<div style={style}></div>);
             }
         }
 
@@ -42,7 +43,7 @@
                 const style = {
                   display: 'grid',
                   'grid-template-columns': 'repeat('+this.state.n+', 0fr)',
-                  gap: '20px',
+                  gap: '0px',
                 };
             
                 var board = [];
@@ -58,7 +59,7 @@
                   <div style={style}>
                     {board.map((row, rowNum) => (
                       <div className="row">
-                       {row.map((elem, colNum) => (<Cell i={rowNum} j={colNum}></Cell>))}
+                       {row.map((elem, colNum) => (<Cell key={rowNum+':'+colNum} i={rowNum} j={colNum} cellSize={'50px'}></Cell>))}
                       </div>
                     ))}
                   </div>
