@@ -33,10 +33,10 @@
             
             constructor(props) {
                 super(props);
-                const [m, setM] = React.useState(props.m);
-                const [n, setN] = React.useState(props.n);
-                const [snake, setSnake] = React.useState(['0:0', '0:1', '0:2']);
-                //this.state = { m: props.m, n:props.n, snake:['0:0', '0:1', '0:2'] };
+                // const [m, setM] = React.useState(props.m);
+                // const [n, setN] = React.useState(props.n);
+                // const [snake, setSnake] = React.useState(['0:0', '0:1', '0:2']);
+                this.state = { m: props.m, n:props.n, snake:['0:0', '0:1', '0:2'] };
                 this.moveSnakeByOne = this.moveSnakeByOne.bind(this);
             }
 
@@ -49,8 +49,8 @@
             */
             moveSnakeByOne(dir) {
                 console.log(dir);
-                var head = this.snake[this.snake.length-1];
-                var tail = this.snake[0];
+                var head = this.state.snake[this.snake.length-1];
+                var tail = this.state.snake[0];
 
                 var headArr = head.split(':');
                 var headi = parseInt(headArr[0]);
@@ -68,13 +68,13 @@
                             newHeadi = headi-1;
                             newHeadj = headj;
                         }else{
-                            newHeadi = this.m-1;
+                            newHeadi = this.state.m-1;
                             newHeadj = headj;
                         }
                         break;
                     case 'D':
                         // code block
-                        if(headi+1<this.m){
+                        if(headi+1<this.state.m){
                             newHeadi = headi+1;
                             newHeadj = headj;
                         }else{
@@ -89,12 +89,12 @@
                             newHeadj = headj-1;
                         }else{
                             newHeadi = headi;
-                            newHeadj = this.n-1;
+                            newHeadj = this.state.n-1;
                         }
                         break;
                     case 'R':
                         // code block
-                        if(headj+1<this.n){
+                        if(headj+1<this.state.n){
                             newHeadi = headi;
                             newHeadj = headj+1;
                         }else{
@@ -110,26 +110,24 @@
                 console.log('newHeadi:'+newHeadi);
                 console.log('newHeadj:'+newHeadj);
 
-                var snakeDeepCopy = this.snake.slice();
+                var snakeDeepCopy = this.state.snake.slice();
                 snakeDeepCopy.push(newHeadi+':'+newHeadj);
                 snakeDeepCopy.shift();
                 console.log(snakeDeepCopy);
-                this.setSnake(snakeDeepCopy, () => {
-                    console.log(this.snake)
-                });
+                this.setState({});
             }
             
             render() {
                 const style = {
                   display: 'grid',
-                  gridTemplateColumns: 'repeat('+this.n+', 0fr)',
+                  gridTemplateColumns: 'repeat('+this.state.n+', 0fr)',
                   gap: '0px',
                 };
             
                 var board = [];
-                for(var i=0;i<this.m;i++){
+                for(var i=0;i<this.state.m;i++){
                     var row = [];
-                    for(var j=0;j<this.n;j++){
+                    for(var j=0;j<this.state.n;j++){
                         row.push('#');
                     }
                     board.push(row);
@@ -140,7 +138,7 @@
                   <div style={style}>
                     {board.map((row, rowNum) => (
                       <div className="row">
-                       {row.map((elem, colNum) => (<Cell key={rowNum+':'+colNum} id={rowNum+':'+colNum} i={rowNum} j={colNum} cellSize={'50px'} isSnakeCell={this.snake.includes(rowNum+':'+colNum)}></Cell>))}
+                       {row.map((elem, colNum) => (<Cell key={rowNum+':'+colNum} id={rowNum+':'+colNum} i={rowNum} j={colNum} cellSize={'50px'} isSnakeCell={this.state.snake.includes(rowNum+':'+colNum)}></Cell>))}
                       </div>
                     ))}
                   </div>
