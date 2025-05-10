@@ -107,10 +107,10 @@
                 snakeDeepCopy.push(newHeadi+':'+newHeadj);
                 snakeDeepCopy.shift();
                 console.log(snakeDeepCopy);
-                this.setState({
-                    ...this.state,
+                this.setState(prevState => ({
+                    ...this.prevState,
                     snake: snakeDeepCopy
-                }, () => {
+                }), () => {
                     console.log(this.state)
                 });
             }
