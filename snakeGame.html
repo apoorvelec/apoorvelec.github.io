@@ -7,6 +7,12 @@
           outline: 1px solid rgba(144, 175, 175, 0.75);
           display: inline-block;
         }
+
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(7, 0fr);
+          gap: 20px;
+        }
     </style>
     <body><div id="root"></div></body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js"></script>
@@ -24,8 +30,36 @@
                 return (<div className="cell"></div>);
             }
         }
+
+        class Grid extends React.Component {
+            
+            constructor(props) {
+                super(props);
+                this.state = { m: props.m, n:props.n };
+            }
+            
+            render() {
+                var board = [];
+                for(var i=0;i<this.state.m;i++){
+                    var row = [];
+                    for(var j=0;j<this.state.n;j++){
+                        row.push('#');
+                    }
+                    board.push(row);
+                }
+                return (
+                  <div className="grid">
+                    {board.map((row, i) => (
+                      <div className="row">
+                       {row.map((elem, j) => (<Cell i=i j=j></Cell>))}
+                      </div>
+                    ))}
+                  </div>
+                );
+            }
+        }
         ReactDOM.render(
-            <Cell />,
+            <Grid />,
             document.getElementById('root')
         );
     </script>
