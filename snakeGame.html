@@ -103,13 +103,14 @@
                 console.log('newHeadi:'+newHeadi);
                 console.log('newHeadj:'+newHeadj);
 
-                var snakeDeepCopy = [...this.state.snake];
+                var snakeDeepCopy = this.state.snake.slice();
                 snakeDeepCopy.push(newHeadi+':'+newHeadj);
                 snakeDeepCopy.shift();
                 console.log(snakeDeepCopy);
                 this.setState(prevState => ({
-                    ...this.prevState,
-                    snake: ['1:9']
+                    m: this.state.m,
+                    n: this.state.n,
+                    snake: snakeDeepCopy.slice()
                 }), () => {
                     console.log(this.state)
                 });
