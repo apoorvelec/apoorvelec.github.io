@@ -49,9 +49,9 @@
                 }
                 return (
                   <div className="grid">
-                    {board.map((row, i) => (
+                    {board.map((row, rowNum) => (
                       <div className="row">
-                       {row.map((elem, j) => (<Cell i=i j=j></Cell>))}
+                       {row.map((elem, colNum) => (<Cell i={rowNum} j={colNum}></Cell>))}
                       </div>
                     ))}
                   </div>
