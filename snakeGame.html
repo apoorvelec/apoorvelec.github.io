@@ -10,7 +10,7 @@
             
             constructor(props) {
                 super(props);
-                this.state = { id:props.id, i: props.i, j:props.j, cellSize:props.cellSize};
+                this.state = { id:props.id, i: props.i, j:props.j, cellSize:props.cellSize, isSnakeCell:props.isSnakeCell};
             }
             
             render() {
@@ -21,7 +21,7 @@
                   outline: '1px solid rgba(144, 175, 175, 0.75)',
                   display: 'inline-block',
                 };
-                return (<div style={style}>S</div>);
+                return (<div style={style}>{this.state.isSnakeCell?S:''}</div>);
             }
         }
 
@@ -29,7 +29,7 @@
             
             constructor(props) {
                 super(props);
-                this.state = { m: props.m, n:props.n };
+                this.state = { m: props.m, n:props.n, snake:['0:0', '0:1', '0:2'] };
             }
             
             render() {
@@ -52,7 +52,7 @@
                   <div style={style}>
                     {board.map((row, rowNum) => (
                       <div className="row">
-                       {row.map((elem, colNum) => (<Cell key={rowNum+':'+colNum} id={rowNum+':'+colNum} i={rowNum} j={colNum} cellSize={'50px'}></Cell>))}
+                       {row.map((elem, colNum) => (<Cell key={rowNum+':'+colNum} id={rowNum+':'+colNum} i={rowNum} j={colNum} cellSize={'50px'} isSnakeCell={this.state.snake.includes(rowNum+':'+colNum)}></Cell>))}
                       </div>
                     ))}
                   </div>
