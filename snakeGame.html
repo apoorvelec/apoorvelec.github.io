@@ -103,7 +103,7 @@
                 console.log('newHeadi:'+newHeadi);
                 console.log('newHeadj:'+newHeadj);
 
-                var snakeDeepCopy = this.deepCopyStringArray(this.state.snake);
+                var snakeDeepCopy = [...this.state.snake];
                 snakeDeepCopy.push(newHeadi+':'+newHeadj);
                 snakeDeepCopy.shift();
                 console.log(snakeDeepCopy);
