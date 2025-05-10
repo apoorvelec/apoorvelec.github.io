@@ -121,6 +121,7 @@
                 }
         
                 return (
+                    <div>
                   <div style={style}>
                     {board.map((row, rowNum) => (
                       <div className="row">
@@ -131,6 +132,7 @@
                   <button onClick={() => this.moveSnakeByOne('R')}>
                     MoveSnake
                   </button>
+                    </div>
                 );
             }
         }
