@@ -32,7 +32,7 @@
                   outline: '1px solid rgba(144, 175, 175, 0.75)',
                   display: 'inline-block',
                 };
-                return (<div style={style}>{this.props.isSnakeCell?'S':''}</div>);
+                return (<div style={style}>{this.props.isSnakeCell?'S':this.props.isAppleCell?'A':''}</div>);
             }
         }
 
@@ -40,10 +40,11 @@
             
             constructor(props) {
                 super(props);
-                this.state = { m: props.m, n:props.n, snake:['0:0', '0:1', '0:2'], snakeHeadDir:'R' };
+                this.state = { m: props.m, n:props.n, snake:['0:0', '0:1', '0:2'], snakeHeadDir:'R', apples:[] };
                 this.moveSnakeByOne = this.moveSnakeByOne.bind(this);
                 this.startGame = this.startGame.bind(this);
                 this.keyDown = this.keyDown.bind(this);
+                this.generateRandomApples = this.generateRandomApples.bind(this);
             }
 
             keyDown(event){
@@ -75,6 +76,26 @@
 
             deepCopyStringArray(arr) {
                 return arr.map(str => String(str));
+            }
+
+            generateRandomApples(){
+                randomApples = [];
+                var count = 0;
+                while(count<5){
+                    count++;
+                    var randi = Math.floor(Math.random()*this.state.m);
+                    var randj = Math.floor(Math.random()*this.state.n);
+                    if(!this.state.snake.includes(randi+':'+randj)){
+                        randomApples.push(randi+':'+randj);
+                    }
+                }
+
+                this.setState(prevState => ({
+                    ...prevState,
+                    apples: randomApples
+                }), () => {
+                    console.log("Changed apples:"+this.state);
+                });
             }
 
             /**
@@ -145,7 +166,9 @@
 
                 var snakeDeepCopy = this.deepCopyStringArray(this.state.snake);
                 snakeDeepCopy.push(newHeadi+':'+newHeadj);
-                snakeDeepCopy.shift();
+                if(!this.state.apples.includes(newHeadi+':'+newHeadj)){
+                    snakeDeepCopy.shift();
+                }
                 console.log(snakeDeepCopy);
                 this.setState(prevState => ({
                     ...prevState,
@@ -160,6 +183,9 @@
                 setInterval(() => {
                     this.moveSnakeByOne(String(this.state.snakeHeadDir));
                 }, millisecondsToWait);
+                setInterval(() => {
+                    this.generateRandomApples();
+                }, 10000);
             }
             
             render() {
@@ -183,7 +209,7 @@
                   <div style={style}>
                     {board.map((row, rowNum) => (
                       <div className="row">
-                       {row.map((elem, colNum) => (<Cell key={rowNum+':'+colNum} id={rowNum+':'+colNum} i={rowNum} j={colNum} cellSize={'50px'} isSnakeCell={this.state.snake.includes(rowNum+':'+colNum)}></Cell>))}
+                       {row.map((elem, colNum) => (<Cell key={rowNum+':'+colNum} id={rowNum+':'+colNum} i={rowNum} j={colNum} cellSize={'50px'} isSnakeCell={this.state.snake.includes(rowNum+':'+colNum)} isAppleCell={this.state.apples.includes(rowNum+':'+colNum)}></Cell>))}
                       </div>
                     ))}
                   </div>
