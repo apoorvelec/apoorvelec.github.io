@@ -102,6 +102,9 @@
                 dir can be 'U', 'D', 'L', 'R'
             */
             moveSnakeByOne(dir) {
+                if(this.state.isGameOver){
+                    return;
+                }
                 console.log(dir);
                 var head = this.state.snake[this.state.snake.length-1];
                 var tail = this.state.snake[0];
