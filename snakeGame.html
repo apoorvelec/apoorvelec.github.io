@@ -9,7 +9,30 @@
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https://unpkg.com/konva@9/konva.min.js"></script>
+    
     <script type="text/babel">
+
+        import { Stage, Layer, Circle } from 'react-konva';
+
+        const App = () => {
+          return (
+            <Stage width={window.innerWidth} height={window.innerHeight}>
+              <Layer>
+                <Circle
+                  x={window.innerWidth / 2}
+                  y={window.innerHeight / 2}
+                  radius={70}
+                  fill="red"
+                  stroke="black"
+                  strokeWidth={4}
+                />
+              </Layer>
+            </Stage>
+          );
+        };
+        
         class Cell extends React.Component {
 
             /**
@@ -225,6 +248,7 @@
                             <h2>Game over!!</h2>
                         }
                     </div>
+                  <App />
                 );
             }
         }
