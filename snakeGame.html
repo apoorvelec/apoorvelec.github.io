@@ -14,13 +14,13 @@
     
     <script type="text/babel">
 
-        import { Stage, Layer, Circle } from 'react-konva';
+        //import { Stage, Layer, Circle } from 'react-konva';
 
         const App = () => {
           return (
-            <Stage width={window.innerWidth} height={window.innerHeight}>
-              <Layer>
-                <Circle
+            <Konva.Stage width={window.innerWidth} height={window.innerHeight}>
+              <Konva.Layer>
+                <Konva.Circle
                   x={window.innerWidth / 2}
                   y={window.innerHeight / 2}
                   radius={70}
@@ -28,8 +28,8 @@
                   stroke="black"
                   strokeWidth={4}
                 />
-              </Layer>
-            </Stage>
+              </Konva.Layer>
+            </Konva.Stage>
           );
         };
         
