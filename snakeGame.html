@@ -32,10 +32,10 @@
                   height: this.props.cellSize,
                   borderRadius: '50%',
                   backgroundColor: this.props.isSnakeCell?'green':this.props.isAppleCell?'red':'white',
-                  outline: this.props.isSnakeHeadCell?'1px solid rgba(144, 175, 175, 0.75)':'none',
+                  outline: this.props.isSnakeHeadCell?'5px solid rgba(144, 175, 175, 0.75)':'none',
                   display: 'inline-block',
                 };
-                return (<div style={style}>{this.props.isSnakeCell?'S':this.props.isAppleCell?'A':''}</div>);
+                return (<div style={style}></div>);
             }
         }
 
@@ -200,6 +200,7 @@
                   display: 'grid',
                   gridTemplateColumns: 'repeat('+this.state.n+', 0fr)',
                   gap: '0px',
+                  outline: '1px solid rgba(144, 175, 175, 0.75)'
                 };
             
                 var board = [];
