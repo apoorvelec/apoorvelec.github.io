@@ -222,10 +222,10 @@
                           </div>
                         ))}
                       </div>
-                      <button onClick={() => this.startGame()}>
+                      <button onClick={() => this.startGame()} onKeyDown={this.keyDown}>
                         Start Game
                       </button>
-                      <input autofocus type='text' onKeyDown={this.keyDown} placeholder='Press here...' />
+                      
                       {this.state.isGameOver &&
                         <h2>Game over!!</h2>
                       }
