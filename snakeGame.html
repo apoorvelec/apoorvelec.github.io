@@ -30,7 +30,8 @@
                 const style = {
                   width: this.props.cellSize,
                   height: this.props.cellSize,
-                  backgroundColor: 'white',
+                  border-radius: 50%;
+                  backgroundColor: this.props.isSnakeCell?'green':this.props.isAppleCell?'red':'white',
                   outline: '1px solid rgba(144, 175, 175, 0.75)',
                   display: 'inline-block',
                 };
