@@ -14,23 +14,17 @@
     
     <script type="text/babel">
 
-        //import { Stage, Layer, Circle } from 'react-konva';
+        const Konva = window.Konva;
+        const { Stage, Layer, Rect, Circle, Text, Image } = window.ReactKonva;
 
         const App = () => {
-          return (
-            <Konva.Stage width={window.innerWidth} height={window.innerHeight}>
-              <Konva.Layer>
-                <Konva.Circle
-                  x={window.innerWidth / 2}
-                  y={window.innerHeight / 2}
-                  radius={70}
-                  fill="red"
-                  stroke="black"
-                  strokeWidth={4}
-                />
-              </Konva.Layer>
-            </Konva.Stage>
-          );
+            return (
+                <Stage width={500} height={400}>
+                    <Layer>
+                        <Rect x={20} y={20} width={50} height={50} fill="red" />
+                    </Layer>
+                </Stage>
+            );
         };
         
         class Cell extends React.Component {
