@@ -9,27 +9,8 @@
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <script src="https://unpkg.com/react-konva@1.1.0/dist/react-konva.js"></script>
-    <script src="https://unpkg.com/konva@7.1.0/konva.min.js"></script>
     
     <script type="text/babel">
-
-        const Konva = window.Konva;
-        const { Stage, Layer, Rect, Circle, Text, Image } = Konva;
-        console.log("Stage obj")
-        console.log(Stage)
-        console.log(Layer)
-
-        const App = () => {
-            return (
-                <Stage width={500} height={400}>
-                    <Layer>
-                        <Rect x={20} y={20} width={50} height={50} fill="red" />
-                    </Layer>
-                </Stage>
-            );
-        };
         
         class Cell extends React.Component {
 
@@ -245,7 +226,6 @@
                         {this.state.isGameOver &&
                             <h2>Game over!!</h2>
                         }
-                    <App />
                     </div>
                   
                 );
