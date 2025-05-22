@@ -32,7 +32,7 @@
                   height: this.props.cellSize,
                   borderRadius: '50%',
                   backgroundColor: this.props.isSnakeCell?'green':this.props.isAppleCell?'red':'white',
-                  outline: '1px solid rgba(144, 175, 175, 0.75)',
+                  outline: this.props.isSnakeHeadCell?'1px solid rgba(144, 175, 175, 0.75)':'none',
                   display: 'inline-block',
                 };
                 return (<div style={style}>{this.props.isSnakeCell?'S':this.props.isAppleCell?'A':''}</div>);
@@ -216,7 +216,7 @@
                   <div style={style}>
                     {board.map((row, rowNum) => (
                       <div className="row">
-                       {row.map((elem, colNum) => (<Cell key={rowNum+':'+colNum} id={rowNum+':'+colNum} i={rowNum} j={colNum} cellSize={'50px'} isSnakeCell={this.state.snake.includes(rowNum+':'+colNum)} isAppleCell={this.state.apples.includes(rowNum+':'+colNum)}></Cell>))}
+                       {row.map((elem, colNum) => (<Cell key={rowNum+':'+colNum} id={rowNum+':'+colNum} i={rowNum} j={colNum} cellSize={'50px'} isSnakeCell={this.state.snake.includes(rowNum+':'+colNum)} isAppleCell={this.state.apples.includes(rowNum+':'+colNum)} isSnakeHeadCell={this.state.snake[this.state.snake.length-1] === rowNum+':'+colNum}></Cell>))}
                       </div>
                     ))}
                   </div>
