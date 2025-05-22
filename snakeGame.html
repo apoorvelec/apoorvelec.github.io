@@ -31,8 +31,8 @@
                   width: this.props.cellSize,
                   height: this.props.cellSize,
                   borderRadius: '50%',
-                  backgroundColor: this.props.isSnakeCell?'green':this.props.isAppleCell?'red':'white',
-                  outline: this.props.isSnakeHeadCell?'5px solid rgba(144, 175, 175, 0.75)':'none',
+                  backgroundColor: this.props.isSnakeCell?'green':this.props.isAppleCell?'red':'LightGray',
+                  outline: this.props.isSnakeHeadCell?'2px solid rgba(144, 175, 175, 0.25)':'none',
                   display: 'inline-block',
                 };
                 return (<div style={style}></div>);
@@ -199,8 +199,7 @@
                 const style = {
                   display: 'grid',
                   gridTemplateColumns: 'repeat('+this.state.n+', 0fr)',
-                  gap: '0px',
-                  outline: '1px solid rgba(144, 175, 175, 0.75)'
+                  gap: '0px'
                 };
             
                 var board = [];
