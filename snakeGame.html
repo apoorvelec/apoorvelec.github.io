@@ -1,7 +1,17 @@
 <html>
     <style>
+        .button {
+          background-color: #04AA6D; /* Green */
+          border: none;
+          color: white;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+        }
     </style>
-    <body><div id="root"></div></body>
+    <body><div id="root" style="text-align:center;margin:auto"></div></body>
 <!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script> -->
@@ -214,7 +224,7 @@
                 }
         
                 return (
-                    <div>
+                    <div style='text-align:center;margin:auto'>
                       <div style={style}>
                         {board.map((row, rowNum) => (
                           <div className="row">
@@ -222,10 +232,9 @@
                           </div>
                         ))}
                       </div>
-                      <button onClick={() => this.startGame()} onKeyDown={this.keyDown}>
+                      <button class='button' onClick={() => this.startGame()} onKeyDown={this.keyDown}>
                         Start Game
                       </button>
-                      
                       {this.state.isGameOver &&
                         <h2>Game over!!</h2>
                       }
